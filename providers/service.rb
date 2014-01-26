@@ -36,12 +36,16 @@ def load_current_resource
   @sensu_svc ||= case new_resource.init_style
   when "sysv"
     service_provider = case node.platform_family
+    log "SERVICE PROVIDER IS BEING SET AS #{service_provider}"
     when /debian/
+      log "CHEF SERVICE PROVIDER IS BEING MATCHED AS debian"
       Chef::Provider::Service::Init::Debian
     when /windows/
+      log "CHEF SERVICE PROVIDER IS BEING MATCHED AS windows"
       Chef::Provider::Service::Windows
     else
       Chef::Provider::Service::Init::Redhat
+      log "CHEF SERVICE PROVIDER IS BEING MATCHED AS redhat"
     end
     service new_resource.service do
       provider service_provider
